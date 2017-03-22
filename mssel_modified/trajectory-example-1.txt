@@ -1,0 +1,8 @@
+#   Simple trajectory -  first line below is number of trajectories, the second line below is the 
+#    number of subpopulations, the third line below ( n: 2 ) specifies the number of time points 
+#    in the first trajectory.
+ntraj: 1
+npop: 1
+n:	2
+0.0      0.12
+.00012   0.0

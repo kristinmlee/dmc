@@ -1,0 +1,2 @@
+gcc -O2 -o mssel  mssel.c  rand1.c streecsel.c -lm
+
