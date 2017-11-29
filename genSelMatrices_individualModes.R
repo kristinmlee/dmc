@@ -1,21 +1,26 @@
 # Functions for generating variance/covariance matrices (F^(S)) with
-#	single mode of convergent adaptation
+#		single mode of convergent adaptation
 #
 # Args:
 #	rec: per base pair recombination rate estimate for the region
-#	F_estimate: estimate of neutral variance/covariance matrix
-#		generated with "calcNeutralF.R"
 #	Ne: effective population size estimate
 #	numPops: number of populations sampled (both selected and non-selected)
-#	positions: vector of genomic positions for region
 #	sampleSizes: vector of sample sizes of length numPops (i.e. twice the number
 #		of diploid individuals sampled in each population)
 #
-#	sets: the probability of recombining off the beneficial background of the
-#		sweep (a function of recombination distance)
-#		e.g. list(c(2,4,6), 8)
+#	F_estimate: estimate of neutral variance/covariance matrix
+#		generated with "calcNeutralF.R"
 #
-#	*Parameter spaces for likelihood calculations*
+#	positions: vector of genomic positions for region
+#
+#	selPops: vector of populations experiencing shared selection pressure
+#		populations correspond to the matching index of the row number of the population
+#   allele frequencies
+#
+# numBins: the number of bins in which to bin alleles a given distance from the proposed
+#		selected sites
+#
+#	*Specify parameter spaces for likelihood calculations*
 #	selSite: vector of positions of proposed selected sites
 #	sels: vector of proposed selection coefficients
 #	times: vector of proposed time in generations the variant is standing 
@@ -26,19 +31,16 @@
 #		*Note: cannot be 0
 #	sources: vector of proposed source population of the beneficial allele
 #		for both migration and standing variant with source models
-#		*Note: the source must be a selected population in "set"
+#		*Note: the source must be a selected population in selPops
 
-
-selPops = unlist(sets)
 nonSelPops = seq(1, numPops)[- selPops]
 distances = sapply(1:length(selSite), function(i) abs(positions - selSite[i]))
 
 sampleErrorMatrix = diag(1/sampleSizes, nrow = numPops, ncol = numPops)
 
-##bin distances
-numBins = 1000
-my.seq = seq(min(distances) - 0.001, max(distances) + 0.001, length.out = (numBins + 1))
-midDistances = sapply(1:numBins, function(i) mean(c(my.seq[i], my.seq[i+1])))
+##get distance
+my.seq = seq(min(distances), max(distances), length.out = (numBins + 1))
+midDistances = sapply(1 : numBins, function(i) mean(c(my.seq[i], my.seq[i+1])))
 
 ##MVN parameters
 k = numPops - 1
@@ -260,8 +262,8 @@ calctotAddF_mig = function(y, e_delta, my.Q, my.source){
 			y^2 * (1 - (F_estimate[my.source, my.source]))
 				
 		for(i in selPops[selPops != my.source]) {
-			selMatrix[i, i] = my.Q * (y^2 + (1 - y^2) * (F_estimate[i, i])) + (1 - my.Q) * 
-				(y^2 * e_delta^2 + (1 - y)^2 * (F_estimate[i, i]) + 2 * y * (1 - y) * 
+			selMatrix[i, i] = my.Q * (y^2 + (1 - y^2) * (F_estimate[i, i]) + 2 * y * (1 - y) * (F_estimate[i, my.source])) +
+			  (1 - my.Q) * (y^2 * e_delta^2 + (1 - y)^2 * (F_estimate[i, i]) + 2 * y * (1 - y) * 
 				F_estimate[my.source, i] + y^2 * (1 - e_delta^2) * (F_estimate[my.source, my.source]))
 			selMatrix[i, my.source] = y^2 * e_delta + (1 - y) * F_estimate[my.source, i] + 
 				y * (1 - y * e_delta) * (F_estimate[my.source, my.source])

@@ -3,19 +3,26 @@
 #
 # Args:
 #	rec: per base pair recombination rate estimate for the region
-#	F_estimate: estimate of neutral variance/covariance matrix
-#		generated with "calcNeutralF.R"
 #	Ne: effective population size estimate
 #	numPops: number of populations sampled (both selected and non-selected)
-#	positions: vector of genomic positions for region
 #	sampleSizes: vector of sample sizes of length numPops (i.e. twice the number
 #		of diploid individuals sampled in each population)
 #
-#	sets: the probability of recombining off the beneficial background of the
-#		sweep (a function of recombination distance)
-#		e.g. list(c(2,4,6), 8)
+#	F_estimate: estimate of neutral variance/covariance matrix
+#		generated with "calcNeutralF.R"
 #
-#	*Parameter spaces for likelihood calculations*
+#	positions: vector of genomic positions for region
+#
+#	sets: list of length number of different modes of convergence to be specified
+#		vector "modes" where each element in list contains vector of populations with
+#   a given single mode of convergence
+#     i.e. if populations 2 and 6 share a mode and populations 3 has another,
+#     sets = list(c(2,6), 3)
+#
+# numBins: the number of bins in which to bin alleles a given distance from the proposed
+#		selected sites
+#
+#	*Specify parameter spaces for likelihood calculations*
 #	selSite: vector of positions of proposed selected sites
 #	sels: vector of proposed selection coefficients
 #	times: vector of proposed time in generations the variant is standing 
@@ -50,7 +57,7 @@ M = numPops
 Tmatrix = matrix(data = rep(-1 / M, (M - 1) * M), nrow = M - 1, ncol = M)
 diag(Tmatrix) = (M - 1) / M 
 
-calctotAddF_indSweeps.set = function(y, set){
+calctotAddF_ind.set = function(y, set){
 	# Computes additional variance/covariance induced
 	#	by convergent adaptation due to independent
 	# 	mutations in a set of populations
@@ -73,7 +80,7 @@ calctotAddF_indSweeps.set = function(y, set){
 	return(selMatrix - F_estimate)
 }
 
-calctotAddF_stdVar_source.set = function(y, Rf, rt, p_no, p_one, my.source, set) {
+calctotAddF_sv_source.set = function(y, Rf, rt, p_no, p_one, my.source, set) {
 	# Computes additional variance/covariance induced
 	#	by convergent adaptation due to selection on
 	# 	shared ancestral standing variation in a set
@@ -177,9 +184,9 @@ calctotAddF_mig.set = function(y, e_delta, my.Q, my.source, set){
 			y^2 * (1 - (F_estimate[my.source, my.source]))
 				
 		for(i in temp.selPops[temp.selPops != my.source]) {
-			selMatrix[i, i] = my.Q * (y^2 + (1 - y^2) * (F_estimate[i, i])) + (1 - my.Q) * 
-				(y^2 * e_delta^2 + (1 - y)^2 * (F_estimate[i, i]) + 2 * y * (1 - y) * 
-				F_estimate[my.source, i] + y^2 * (1 - e_delta^2) * (F_estimate[my.source, my.source]))
+		  selMatrix[i, i] = my.Q * (y^2 + (1 - y^2) * (F_estimate[i, i]) + 2 * y * (1 - y) * (F_estimate[i, my.source])) +
+		    (1 - my.Q) * (y^2 * e_delta^2 + (1 - y)^2 * (F_estimate[i, i]) + 2 * y * (1 - y) * 
+		    F_estimate[my.source, i] + y^2 * (1 - e_delta^2) * (F_estimate[my.source, my.source]))
 			selMatrix[i, my.source] = y^2 * e_delta + (1 - y) * F_estimate[my.source, i] + 
 				y * (1 - y * e_delta) * (F_estimate[my.source, my.source])
 			selMatrix[my.source, i] = y^2 * e_delta + (1 - y) * F_estimate[my.source, i] +
@@ -236,11 +243,11 @@ calcFOmegas_mixed = function(sel, g, time, mig, my.source, modes) {
 			rt = exp(-rec * midDistances * time)
 			p_no = exp(-time * (2 * rec * midDistances + 1 / (2 * Ne * g)))
 			p_one = exp(-time * (rec * midDistances + 1 / (2 * Ne * g)))
-			FOmegas = lapply(1 : length(midDistances), function(i) calctotAddF_stdVar.set(y[[i]], Rf[[i]],
+			FOmegas = lapply(1 : length(midDistances), function(i) calctotAddF_sv_source.set(y[[i]], Rf[[i]],
 				rt[[i]], p_no[[i]], p_one[[i]], my.source, set) + FOmegas[[i]])	
 		}
 		else if(modes[set] == "ind") {
-			FOmegas = lapply(1 : length(midDistances), function(i) calctotAddF_indSweeps.set(y[[i]], set) +
+			FOmegas = lapply(1 : length(midDistances), function(i) calctotAddF_ind.set(y[[i]], set) +
 				FOmegas[[i]])
 		}
 		else if(modes[set] == "mig") {
@@ -255,34 +262,3 @@ calcFOmegas_mixed = function(sel, g, time, mig, my.source, modes) {
 	FOmegas = lapply(FOmegas, function(i) Tmatrix %*% (i + F_estimate + sampleErrorMatrix) %*% t(Tmatrix))
 	return(FOmegas)
 }
-
-##examples
-my.modes_svInd = c("sv", "ind")
-FOmegas_mixed.svInd = lapply(sels ,function(sel) {
-	lapply(gs, function(g) {
-		lapply(times, function(time) {
-			lapply(migs[1], function(mig) {
-				lapply(sources, function(my.source) {
-					calcFOmegas_mixed_e(sel, g, time, mig, my.source, my.modes_svInd)
-				})
-			})
-		})
-	})
-})
-
-
-my.modes_migInd = c("mig", "ind")
-FOmegas_mixed.svInd = lapply(sels ,function(sel) {
-	lapply(gs[1], function(g) {
-		lapply(times[1], function(time) {
-			lapply(migs, function(mig) {
-				lapply(sources, function(my.source) {
-					calcFOmegas_mixed_e(sel, g, time, mig, my.source, my.modes_migInd)
-				})
-			})
-		})
-	})
-})
-
-#	neutralF_filename: name/path as string for neutral variance/covariance matrices
-#		to be saved as an R object
