@@ -14,6 +14,8 @@ sampled from each of the six populations.
 ![Example demographic
 sceanario](https://github.com/kristinmlee/dmc/blob/master/example/example_figures/example_tree.png)
 
+Population allele frequencies and the positions of the SNPs are located in [example/selectedRegionAlleleFreqs_example.RDS](https://github.com/kristinmlee/dmc/blob/master/example/selectedRegionAlleleFreqs_example.RDS) and [example/selectedRegionPositions_example.RDS](https://github.com/kristinmlee/dmc/blob/master/example/selectedRegionPositions_example.RDS), respectively.
+
 Calculate Neutral **F** Matrix
 ------------------------------
 
@@ -27,6 +29,8 @@ each population, (3) a string of filename/path we want our output to be
 saved as. See
 [dmc/calcNeutralF.R](https://github.com/kristinmlee/dmc/blob/master/calcNeutralF.R)
 for more information about arguments.
+
+10,000 neutral SNPs generated from simulating under the same demography and population structure with no selection are found here: [example/neutralAlleleFreqs_example.RDS](https://github.com/kristinmlee/dmc/blob/master/example/neutralAlleleFreqs_example.RDS).
 
     allFreqs = readRDS("example/neutralAlleleFreqs_example.RDS")
     sampleSizes = rep(10, 6)
