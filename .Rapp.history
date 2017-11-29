@@ -1,0 +1,3 @@
+load("/Users/kristinlee/Documents/dmc/ind_3pop_0.1_nosel_all_notRand.RDS")
+load("/Users/kristinlee/Documents/dmc/ind_sel_3pop_0.1_stochasticoneRun_positions.RDS")
+load("/Users/kristinlee/Documents/dmc/neutralF_example.RDS")

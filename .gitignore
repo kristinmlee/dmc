@@ -1,0 +1,7 @@
+# RMD files
+.rmd
+.html
+
+# Separate CL files
+compLikelihood_mixed_svInd_example_selSite*.RDS
+compLikelihood_mixed_migInd_example_selSite*.RDS

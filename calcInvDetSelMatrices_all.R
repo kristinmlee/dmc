@@ -4,6 +4,7 @@
 # 	model, combinations of convergent selection models (mixed)
 #
 # Args:
+# numPops: number of populations sampled (both selected and non-selected)
 #	sampleSizes: vector of sample sizes of length numberOfPopulations
 #		(i.e. twice the number of diploid individuals sampled in each population)
 #		Note: needed only for neutral model since other models are already sample-size

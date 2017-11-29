@@ -2,16 +2,14 @@
 #
 # Args:
 #	allFreqs: matrix of allele frequencies at putatively neutral sites with	
-#		dimension numberOfSites x numberOfPopulations
+#		dimension numberOfPopulations x numberOfSites
 #	sampleSizes: vector of sample sizes of length numberOfPopulations
 #		(i.e. twice the number of diploid individuals sampled in each population)
 #	neutralF_filename: name/path as string for neutral variance/covariance matrices
 #		to be saved as an R object
 
-dFreq = t(allFreqs)
-
 #randomize reference allele
-allRunFreq = apply(dFreq, 2, function(my.freqs) {
+allRunFreq = apply(allFreqs, 2, function(my.freqs) {
 	if(runif(1) < 0.5) {
 		my.freqs = 1 - my.freqs
 	}
