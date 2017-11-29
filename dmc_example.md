@@ -1,3 +1,8 @@
+
+# DMC Example
+**Kristin M Lee (10/23/2017)** 
+
+
 This is an example of how to use the code found in
 <https://github.com/kristinmlee/dmc> to calculate composite
 log-likelihoods for various modes of convergent adaptation.
@@ -7,7 +12,7 @@ stars represent the three populations with selection. Ten alleles are
 sampled from each of the six populations.
 
 ![Example demographic
-sceanario](/Users/kristinlee/Documents/dmc/example/example_tree3.png)
+sceanario](/example_figures/example_tree.png)
 
 Calculate Neutral **F** Matrix
 ------------------------------
@@ -621,7 +626,7 @@ proposed selected site.
            lty = c(rep(1, 3), rep(2, 2)), sapply(1 : 5, function(i) paste("Model", i)),
            cex = 0.5)
 
-![](dmc_example_files/figure-markdown_strict/unnamed-chunk-13-1.png)
+![Figure 1](/example_figures/figure1.png)
 
 ### Get maximum composite likelihood estimates (MCLEs)
 
@@ -700,7 +705,7 @@ likely selected site. See Lee and Coop (2017) for more information.
          ylab = "Profile composite log-likelihood", main = "Figure 2: Model 3")
     abline(v = mcle_sv[4], lty = 2, col = "red")
 
-![](dmc_example_files/figure-markdown_strict/unnamed-chunk-15-1.png)
+![Figure 2](/example_figures/figure2.png)
 
     ## Model 5
     mcle_mixed_svInd = getMCLEmixed(compLikelihood_mixed_svInd, selSite, sels,
@@ -722,7 +727,7 @@ likely selected site. See Lee and Coop (2017) for more information.
          ylab = "Profile composite log-likelihood", main = "Figure 3: Model 5")
     abline(v = mcle_mixed_svInd[4], lty = 2, col = "red")
 
-![](dmc_example_files/figure-markdown_strict/unnamed-chunk-15-2.png)
+![Figure 3](/example_figures/figure3.png)
 
 In both cases, we see the MCLE of t tending towards infinity. In this
 case, we know our standing variant model overlaps with our independent
@@ -774,7 +779,7 @@ the most likely selected site for each of these models.
          ylab = "Profile composite log-likelihood", main = "Model 1")
     abline(v = mcle_ind[2], lty = 2, col = "blue")
 
-![](dmc_example_files/figure-markdown_strict/unnamed-chunk-16-1.png)
+![Figure 4](/example_figures/figure4.png)
 
 Models 1 and 5 show a peak at s = 0.03 and model 3 at s = 0.05.
 
