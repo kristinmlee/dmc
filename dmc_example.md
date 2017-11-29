@@ -34,7 +34,7 @@ for more information about arguments.
 
     allFreqs = readRDS("example/neutralAlleleFreqs_example.RDS")
     sampleSizes = rep(10, 6)
-    neutralF_filename = "example/neutralF_example"
+    neutralF_filename = "example_output/neutralF_example"
 
     source("calcNeutralF.R")
 
@@ -76,7 +76,7 @@ arguments.
     sampleSizes = rep(10, 6)
     selPops = c(1, 3, 5)
 
-    F_estimate = readRDS("example/neutralF_example.RDS")
+    F_estimate = readRDS("example_output/neutralF_example.RDS")
 
     positions = readRDS("example/selectedRegionPositions_example.RDS")
 
@@ -104,7 +104,7 @@ beneficial allele):
       calcFOmegas_indSweeps(sel)
     })
 
-    saveRDS(FOmegas_ind, "example/FOmegas_ind_example.RDS")
+    saveRDS(FOmegas_ind, "example_output/FOmegas_ind_example.RDS")
 
 For model 2 (all selected populations share beneficial allele via
 migration):
@@ -117,7 +117,7 @@ migration):
       })
     })
 
-    saveRDS(FOmegas_mig, "example/FOmegas_mig_example.RDS")
+    saveRDS(FOmegas_mig, "example_output/FOmegas_mig_example.RDS")
 
 For model 3 (the beneficial allele was standing in the ancestor of all
 selected populations):
@@ -132,7 +132,7 @@ selected populations):
       })
     })
 
-    saveRDS(FOmegas_sv, "example/FOmegas_sv_example.RDS")
+    saveRDS(FOmegas_sv, "example_output/FOmegas_sv_example.RDS")
 
 Now we'll work with models 4 and 5, where there are multiple modes of
 convergent adaptation (i.e. different sets of populations are aquiring
@@ -150,7 +150,7 @@ convergence. See the R script for more information about arguments.
     sets = list(c(1, 3), 5)
     #populations 1 and 3 will share a mode, population 5 has separate mode
 
-    F_estimate = readRDS("example/neutralF_example.RDS")
+    F_estimate = readRDS("example_output/neutralF_example.RDS")
 
     positions = readRDS("example/selectedRegionPositions_example.RDS")
 
@@ -187,7 +187,7 @@ mutation at the same locus):
         })
     })
 
-    saveRDS(FOmegas_mixed_migInd, "example/FOmegas_mixed_migInd_example.RDS")
+    saveRDS(FOmegas_mixed_migInd, "example_output/FOmegas_mixed_migInd_example.RDS")
 
 For model 5 (the beneficial allele was standing in the ancestor of the
 first two selected populations (1,3), third selected population (5) has
@@ -210,7 +210,7 @@ an independent mutation at the same locus):
         })
     })
 
-    saveRDS(FOmegas_mixed_svInd, "example/FOmegas_mixed_svInd_example.RDS")
+    saveRDS(FOmegas_mixed_svInd, "example_output/FOmegas_mixed_svInd_example.RDS")
 
 Generate and save inverses and determinants for **F<sup>(S)</sup>** matrices
 ----------------------------------------------------------------------------
@@ -231,7 +231,7 @@ compute and save these values.
 
     ## Neutral model
     sampleSizes = rep(10, 6)
-    F_estimate = readRDS("example/neutralF_example.RDS")
+    F_estimate = readRDS("example_output/neutralF_example.RDS")
 
     numPops = 6
     M = numPops
@@ -241,34 +241,34 @@ compute and save these values.
     sampleErrorMatrix = diag(1/sampleSizes, nrow = numPops, ncol = numPops)
 
     det_FOmegas_neutral = det(Tmatrix %*% (F_estimate + sampleErrorMatrix) %*% t(Tmatrix))
-    saveRDS(det_FOmegas_neutral, "example/det_FOmegas_neutral_example.RDS")
+    saveRDS(det_FOmegas_neutral, "example_output/det_FOmegas_neutral_example.RDS")
 
     inv_FOmegas_neutral = ginv(Tmatrix %*% (F_estimate + sampleErrorMatrix) %*% t(Tmatrix))
-    saveRDS(inv_FOmegas_neutral, "example/inv_FOmegas_neutral_example.RDS")
+    saveRDS(inv_FOmegas_neutral, "example_output/inv_FOmegas_neutral_example.RDS")
 
 
 
     ## Model 1
-    FOmegas_ind = readRDS("example/FOmegas_ind_example.RDS")
+    FOmegas_ind = readRDS("example_output/FOmegas_ind_example.RDS")
 
     det_FOmegas_ind = lapply(FOmegas_ind, function(sel) {
         lapply(sel, function(dist) {
             det(dist)
         })
     })
-    saveRDS(det_FOmegas_ind, "example/det_FOmegas_ind_example.RDS")
+    saveRDS(det_FOmegas_ind, "example_output/det_FOmegas_ind_example.RDS")
 
     inv_FOmegas_ind = lapply(FOmegas_ind, function(sel) {
         lapply(sel, function(dist) {
             ginv(dist)
         })
     })
-    saveRDS(inv_FOmegas_ind, "example/inv_FOmegas_ind_example.RDS")
+    saveRDS(inv_FOmegas_ind, "example_output/inv_FOmegas_ind_example.RDS")
 
 
 
     ## Model 2
-    FOmegas_mig = readRDS("example/FOmegas_mig_example.RDS")
+    FOmegas_mig = readRDS("example_output/FOmegas_mig_example.RDS")
 
     det_FOmegas_mig = lapply(FOmegas_mig, function(sel) {
         lapply(sel, function(mig) {
@@ -279,7 +279,7 @@ compute and save these values.
             })
         })
     })
-    saveRDS(det_FOmegas_mig, "example/det_FOmegas_mig_example.RDS")
+    saveRDS(det_FOmegas_mig_output, "example_output/det_FOmegas_mig_example.RDS")
 
     inv_FOmegas_mig = lapply(FOmegas_mig, function(sel) {
         lapply(sel, function(mig) {
@@ -290,12 +290,12 @@ compute and save these values.
             })
         })
     })
-    saveRDS(inv_FOmegas_mig, "example/inv_FOmegas_mig_example.RDS")
+    saveRDS(inv_FOmegas_mig_output, "example_output/inv_FOmegas_mig_example.RDS")
 
 
 
     ## Model 3
-    FOmegas_sv = readRDS("example/FOmegas_sv_example.RDS")
+    FOmegas_sv = readRDS("example_output/FOmegas_sv_example.RDS")
 
     det_FOmegas_sv = lapply(FOmegas_sv, function(sel) {
         lapply(sel, function(g) {
@@ -308,7 +308,7 @@ compute and save these values.
             })
         })
     })
-    saveRDS(det_FOmegas_sv, "example/det_FOmegas_sv_example.RDS")
+    saveRDS(det_FOmegas_sv, "example_output/det_FOmegas_sv_example.RDS")
 
     inv_FOmegas_sv = lapply(FOmegas_sv, function(sel) {
         lapply(sel, function(g) {
@@ -321,10 +321,10 @@ compute and save these values.
             })
         })
     })
-    saveRDS(inv_FOmegas_sv, "example/inv_FOmegas_sv_example.RDS")
+    saveRDS(inv_FOmegas_sv, "example_output/inv_FOmegas_sv_example.RDS")
 
     ## Model 4
-    FOmegas_mixed_migInd = readRDS("example/FOmegas_mixed_migInd_example.RDS")
+    FOmegas_mixed_migInd = readRDS("example_output/FOmegas_mixed_migInd_example.RDS")
 
     detFOmegas_mixed_migInd = lapply(FOmegas_mixed_migInd, function(sel) {
         lapply(sel, function(g) {
@@ -339,7 +339,7 @@ compute and save these values.
             })
         })
     })
-    saveRDS(detFOmegas_mixed_migInd, "example/det_FOmegas_mixed_migInd_example.RDS")
+    saveRDS(detFOmegas_mixed_migInd, "example_output/det_FOmegas_mixed_migInd_example.RDS")
 
     invFOmegas_mixed_migInd = lapply(FOmegas_mixed_migInd, function(sel) {
         lapply(sel, function(g) {
@@ -354,10 +354,10 @@ compute and save these values.
             })
         })
     })
-    saveRDS(invFOmegas_mixed_migInd, "example/inv_FOmegas_mixed_migInd_example.RDS")
+    saveRDS(invFOmegas_mixed_migInd, "example_output/inv_FOmegas_mixed_migInd_example.RDS")
 
     ## Model 5
-    FOmegas_mixed_svInd = readRDS("example/FOmegas_mixed_svInd_example.RDS")
+    FOmegas_mixed_svInd = readRDS("example_output/FOmegas_mixed_svInd_example.RDS")
 
     detFOmegas_mixed_svInd = lapply(FOmegas_mixed_svInd, function(sel) {
         lapply(sel, function(g) {
@@ -372,7 +372,7 @@ compute and save these values.
             })
         })
     })
-    saveRDS(detFOmegas_mixed_svInd, "example/det_FOmegas_mixed_svInd_example.RDS")
+    saveRDS(detFOmegas_mixed_svInd, "example_output/det_FOmegas_mixed_svInd_example.RDS")
 
     invFOmegas_mixed_svInd = lapply(FOmegas_mixed_svInd, function(sel) {
         lapply(sel, function(g) {
@@ -387,7 +387,7 @@ compute and save these values.
             })
         })
     })
-    saveRDS(invFOmegas_mixed_svInd, "example/inv_FOmegas_mixed_svInd_example.RDS")
+    saveRDS(invFOmegas_mixed_svInd, "example_output/inv_FOmegas_mixed_svInd_example.RDS")
 
 Calculate composite likelihoods
 -------------------------------
@@ -421,12 +421,12 @@ likelihood calculations.
         my.freqs
     })
 
-    saveRDS(randFreqs, "example/selectedRegionAlleleFreqsRand_example.RDS")
+    saveRDS(randFreqs, "example_output/selectedRegionAlleleFreqsRand_example.RDS")
 
     numPops = 6
     positions = readRDS("example/selectedRegionPositions_example.RDS")
 
-    freqs = readRDS("example/selectedRegionAlleleFreqsRand_example.RDS")
+    freqs = readRDS("example_output/selectedRegionAlleleFreqsRand_example.RDS")
 
     #these values must be same as used to calculate Calculate F^(S) matrices above
     numBins = 1000
@@ -445,25 +445,25 @@ likelihood calculations.
     source("calcCompositeLike.R")
 
     ## Neutral model
-    det_FOmegas_neutral = readRDS("example/det_FOmegas_neutral_example.RDS")
-    inv_FOmegas_neutral = readRDS("example/inv_FOmegas_neutral_example.RDS")
+    det_FOmegas_neutral = readRDS("example_output/det_FOmegas_neutral_example.RDS")
+    inv_FOmegas_neutral = readRDS("example_output/inv_FOmegas_neutral_example.RDS")
     compLikelihood_neutral = lapply(1 : length(selSite), function(j) {
       calcCompLikelihood_neutral(j, det_FOmegas_neutral, inv_FOmegas_neutral))
     }
-    saveRDS(compLikelihood_neutral, "example/compLikelihood_neutral_example.RDS")
+    saveRDS(compLikelihood_neutral, "example_output/compLikelihood_neutral_example.RDS")
 
     ## Model 1
-    det_FOmegas_ind = readRDS("example/det_FOmegas_ind_example.RDS")
-    inv_FOmegas_ind = readRDS("example/inv_FOmegas_ind_example.RDS")
+    det_FOmegas_ind = readRDS("example_output/det_FOmegas_ind_example.RDS")
+    inv_FOmegas_ind = readRDS("example_output/inv_FOmegas_ind_example.RDS")
     compLikelihood_ind = lapply(1 : length(selSite), function(j) {
       lapply(1 : length(sels), function(sel) calcCompLikelihood_1par(j, det_FOmegas_ind,
                                                                      inv_FOmegas_ind, sel))
     })
-    saveRDS(compLikelihood_ind, "example/compLikelihood_ind_example.RDS")
+    saveRDS(compLikelihood_ind, "example_output/compLikelihood_ind_example.RDS")
 
     ## Model 2
-    det_FOmegas_mig = readRDS("example/det_FOmegas_mig_example.RDS")
-    inv_FOmegas_mig = readRDS("example/inv_FOmegas_mig_example.RDS")
+    det_FOmegas_mig = readRDS("example_output/det_FOmegas_mig_example.RDS")
+    inv_FOmegas_mig = readRDS("example_output/inv_FOmegas_mig_example.RDS")
     compLikelihood_mig = lapply(1 : length(selSite), function(j) {
         lapply(1 : length(sels), function(sel) {
             lapply(1 : length(migs), function(mig) {
@@ -474,11 +474,11 @@ likelihood calculations.
             })
         })
     })
-    saveRDS(compLikelihood_mig, "example/compLikelihood_mig_example.RDS")
+    saveRDS(compLikelihood_mig, "example_output/compLikelihood_mig_example.RDS")
 
     ## Model 3
-    det_FOmegas_sv = readRDS("example/det_FOmegas_sv_example.RDS")
-    inv_FOmegas_sv = readRDS("example/inv_FOmegas_sv_example.RDS")
+    det_FOmegas_sv = readRDS("example_output/det_FOmegas_sv_example.RDS")
+    inv_FOmegas_sv = readRDS("example_output/inv_FOmegas_sv_example.RDS")
     compLikelihood_sv = lapply(1 : length(selSite), function(j) {
         lapply(1 : length(sels), function(sel) {
             lapply(1 : length(gs), function(g) {
@@ -491,11 +491,11 @@ likelihood calculations.
             })
         })
     })
-    saveRDS(compLikelihood_sv, "example/compLikelihood_sv_example.RDS")
+    saveRDS(compLikelihood_sv, "example_output/compLikelihood_sv_example.RDS")
 
     ## Model 4
-    det_FOmegas_mixed_migInd = readRDS("example/det_FOmegas_mixed_migInd_example.RDS")
-    inv_FOmegas_mixed_migInd = readRDS("example/inv_FOmegas_mixed_migInd_example.RDS")
+    det_FOmegas_mixed_migInd = readRDS("example_output/det_FOmegas_mixed_migInd_example.RDS")
+    inv_FOmegas_mixed_migInd = readRDS("example_output/inv_FOmegas_mixed_migInd_example.RDS")
 
     # same trick as above (the parameters time and g are not involved in the migration
     ## model so we only loop over the first element of these vectors)
@@ -516,13 +516,13 @@ likelihood calculations.
             })
         })
       saveRDS(compLikelihood_mixed_migInd,
-              paste("example/compLikelihood_mixed_migInd_example_selSite", j, ".RDS",
+              paste("example_output/compLikelihood_mixed_migInd_example_selSite", j, ".RDS",
                     sep = ""))
     }
 
     ## Model 5
-    det_FOmegas_mixed_svInd = readRDS("example/det_FOmegas_mixed_svInd_example.RDS")
-    inv_FOmegas_mixed_svInd = readRDS("example/inv_FOmegas_mixed_svInd_example.RDS")
+    det_FOmegas_mixed_svInd = readRDS("example_output/det_FOmegas_mixed_svInd_example.RDS")
+    inv_FOmegas_mixed_svInd = readRDS("example_output/inv_FOmegas_mixed_svInd_example.RDS")
 
     #same trick as above (the parameter mig is not involved in the migration model so we
     ##only loop over the first element of this vector)
@@ -543,7 +543,7 @@ likelihood calculations.
             })
         })
       saveRDS(compLikelihood_mixed_svInd,
-              paste("example/compLikelihood_mixed_svInd_example_selSite", j, ".RDS",
+              paste("example_output/compLikelihood_mixed_svInd_example_selSite", j, ".RDS",
                     sep = ""))
     }
 
@@ -558,52 +558,52 @@ proposed selected site.
 
     ## Model 4
     compLikelihood_mixed_migInd_all = lapply(1: length(selSite), function(i) {
-      readRDS(paste("example/compLikelihood_mixed_migInd_example_selSite", i, ".RDS",
+      readRDS(paste("example_output/compLikelihood_mixed_migInd_example_selSite", i, ".RDS",
                     sep = ""))
     })
 
-    saveRDS(compLikelihood_mixed_migInd_all, "example/compLikelihood_mixed_migInd_example.RDS")
+    saveRDS(compLikelihood_mixed_migInd_all, "example_output/compLikelihood_mixed_migInd_example.RDS")
 
     ## Model 5
     compLikelihood_mixed_svInd_all = lapply(1: length(selSite), function(i) {
-      readRDS(paste("example/compLikelihood_mixed_svInd_example_selSite", i, ".RDS",
+      readRDS(paste("example_output/compLikelihood_mixed_svInd_example_selSite", i, ".RDS",
                     sep = ""))
     })
 
-    saveRDS(compLikelihood_mixed_svInd_all, "example/compLikelihood_mixed_svInd_example.RDS")
+    saveRDS(compLikelihood_mixed_svInd_all, "example_output/compLikelihood_mixed_svInd_example.RDS")
 
 ### Plot maximum composite likelihood ratio (model - neutral) for all models over proposed selected sites
 
-    positions = readRDS("example/selectedRegionPositions_example.RDS")
+    positions = readRDS("example_output/selectedRegionPositions_example.RDS")
     selSite = seq(min(positions), max(positions), length.out = 10)
 
     #read in composite likelihood files and calculate max for all proposed selected sites
-    compLikelihood_neutral = readRDS("example/compLikelihood_neutral_example.RDS")
+    compLikelihood_neutral = readRDS("example_output/compLikelihood_neutral_example.RDS")
     compLikelihood_neutral_site = sapply(1 : length(selSite), function(i) {
       max(unlist(compLikelihood_neutral[[i]]))
     })
 
-    compLikelihood_ind = readRDS("example/compLikelihood_ind_example.RDS")
+    compLikelihood_ind = readRDS("example_output/compLikelihood_ind_example.RDS")
     compLikelihood_ind_site = sapply(1 : length(selSite), function(i) {
       max(unlist(compLikelihood_ind[[i]]))
     })
 
-    compLikelihood_mig = readRDS("example/compLikelihood_mig_example.RDS")
+    compLikelihood_mig = readRDS("example_output/compLikelihood_mig_example.RDS")
     compLikelihood_mig_site = sapply(1 : length(selSite), function(i) {
       max(unlist(compLikelihood_mig[[i]]))
     })
 
-    compLikelihood_sv = readRDS("example/compLikelihood_sv_example.RDS")
+    compLikelihood_sv = readRDS("example_output/compLikelihood_sv_example.RDS")
     compLikelihood_sv_site = sapply(1 : length(selSite), function(i) {  
       max(unlist(compLikelihood_sv[[i]]))
     })
 
-    compLikelihood_mixed_migInd = readRDS("example/compLikelihood_mixed_migInd_example.RDS")
+    compLikelihood_mixed_migInd = readRDS("example_output/compLikelihood_mixed_migInd_example.RDS")
     compLikelihood_mixed_migInd_site = sapply(1 : length(selSite), function(i) {
       max(unlist(compLikelihood_mixed_migInd[[i]]))
     })
 
-    compLikelihood_mixed_svInd = readRDS("example/compLikelihood_mixed_svInd_example.RDS")
+    compLikelihood_mixed_svInd = readRDS("example_output/compLikelihood_mixed_svInd_example.RDS")
     compLikelihood_mixed_svInd_site = sapply(1 : length(selSite), function(i) {
       max(unlist(compLikelihood_mixed_svInd[[i]]))
     })
