@@ -29,9 +29,9 @@ This repository contains code associated with Lee and Coop (2017) and for extens
 
 ### 3. [Modified version of mssel](https://github.com/kristinmlee/dmc/tree/master/mssel_modified), a version of ms [1] that allows for the incorporation of selection at a single site, modified by KL to allow for multiple independent origins of beneficial lineages.
 
-### 4. MYAdIDAS extension
-+ Code for extension MYAdIDAS by Sivan Yair and Kristin Lee, associated with Oziolor et al. (2019) and modified for cases of adaptive introgression, can be found in [myAdidas](https://github.com/kristinmlee/dmc/tree/master/myAdidas). This also includes modifications for deletions, strong selection coefficients, and differences in effective population sizes among populations. See folder for complete details.
+### 4. [MYAdIDAS extension](https://github.com/kristinmlee/dmc/tree/master/myAdidas)
++ Code for extension MYAdIDAS by Sivan Yair and Kristin Lee, associated with Oziolor et al. (2019) and modified for cases of adaptive introgression, can be found in folder [myAdidas](https://github.com/kristinmlee/dmc/tree/master/myAdidas). This also includes modifications for deletions, strong selection coefficients, and differences in effective population sizes among populations. See folder for complete details.
 
 
-<span style="font-size:5em;"> [1] Hudson, R. R. (2002). Generating samples under a Wright–Fisher neutral model of genetic variation. Bioinformatics 18, 337–338. </span>
+[1] Hudson, R. R. (2002). Generating samples under a Wright–Fisher neutral model of genetic variation. Bioinformatics 18, 337–338.
 
