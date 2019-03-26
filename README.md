@@ -3,7 +3,8 @@
 
 This repository contains code associated with Lee and Coop (2017).
 
-Code for extension MYSADiDAS by Sivan Yair and Kristin Lee, associated with Oziolor et al. (2019) and modified for cases of adaptive introgression, can be found in [myAdidas](https://github.com/kristinmlee/dmc/tree/master/myAdidas). This also includes modifications for deletions, strong selection coefficients, and differences in effective population sizes among populations. See folder for complete details.
+### MYAdIDAS extension
+Code for extension MYAdIDAS by Sivan Yair and Kristin Lee, associated with Oziolor et al. (2019) and modified for cases of adaptive introgression, can be found in [myAdidas](https://github.com/kristinmlee/dmc/tree/master/myAdidas). This also includes modifications for deletions, strong selection coefficients, and differences in effective population sizes among populations. See folder for complete details.
 
 ### 1. Scripts to run DMC
 + A fully worked example for how to use DMC can be found at [dmc_example.md](https://github.com/kristinmlee/dmc/blob/master/dmc_example.md)
