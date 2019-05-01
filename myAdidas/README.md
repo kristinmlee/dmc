@@ -18,7 +18,7 @@ This folder contains code associated with Oziolor et al. (2019). In this publica
 
 While there are some differences between our analyses of the AHR (on chromosome 1) and ARNT (on chromosome 10) regions, they follow the same general framework to calculate the composite likelihoods of each model. Below, we list scripts that must be run in the order they are listed; in each script, R objects are written that will be used as input for subsequent scripts. 
 
-1. **calcNeutralF.R** contains code to generate and save **F<sup>(S)</sup>** as an R object. This script is almost identical between the two analyses, so we leave it in this directory. 
+1. **calcNeutralF.R** contains code to generate and save **F** as an R object. This script is almost identical between the two analyses, so we leave it in this directory. 
 2. **genSelMatrices_fxns.R** contains functions for each model to generate **F<sup>(S)</sup>** at a neutral site that is a certain recombination distance away from the selected site.
 3. **genSelMatrices_exec.R** uses those functions in step 2 to generate **F<sup>(S)</sup>** for each recombination distance to the selected site and combination of free parameters. We define 1000 bins of recombination distances within which a neutral site can be categorized.
 4. **calcInvDetSelMatrices.R** computes the inverses and determinants of all **F<sup>(S)</sup>** generated in step 3. These are used in the likelihood functions (see following steps).
